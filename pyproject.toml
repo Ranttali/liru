@@ -55,7 +55,7 @@ Issues = "https://github.com/veitsi/liru/issues"
 Changelog = "https://github.com/veitsi/liru/blob/main/CHANGELOG.md"
 
 [tool.scikit-build]
-cmake.minimum-version = "3.25"
+cmake.version = ">=3.25"
 cmake.build-type = "Release"
 wheel.packages = ["liru"]
 wheel.install-dir = "liru"
@@ -65,7 +65,7 @@ wheel.license-files = ["LICENSE", "THIRD_PARTY_LICENSES.txt"]
 [tool.scikit-build.metadata.version]
 provider = "scikit_build_core.metadata.regex"
 input = "liru/__version__.py"
-regex = '^__version__ = ["\']([^"\']+)["\']'
+regex = '''^__version__ = ["'](?P<value>[^"']+)["']'''
 
 # Exclude build artifacts and docs from wheel
 wheel.exclude = [

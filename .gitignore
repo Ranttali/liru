@@ -21,7 +21,7 @@ ENV/
 .venv
 
 # IDEs
-.vscode/
+# .vscode/  # Tracked for project-specific tasks and settings
 .idea/
 *.swp
 *.swo
