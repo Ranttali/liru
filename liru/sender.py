@@ -1,6 +1,8 @@
 """Spout sender implementation."""
 
-from typing import Optional
+from __future__ import annotations
+
+import types
 
 try:
     from liru import _liru_core  # type: ignore[attr-defined]
@@ -115,7 +117,8 @@ class Sender:
             >>> fps = sender.get_fps()
             >>> print(f"Sending at {fps:.1f} FPS")
         """
-        return self._impl.get_fps()
+        fps: float = self._impl.get_fps()
+        return fps
 
     @property
     def last_send_time_ms(self) -> float:
@@ -128,7 +131,8 @@ class Sender:
             >>> sender.send_texture(texture.glo)
             >>> print(f"Send latency: {sender.last_send_time_ms:.3f}ms")
         """
-        return self._impl.get_last_send_time_ms()
+        latency: float = self._impl.get_last_send_time_ms()
+        return latency
 
     @property
     def name(self) -> str:
@@ -157,7 +161,7 @@ class Sender:
         """
         return self._height
 
-    def __enter__(self) -> "Sender":
+    def __enter__(self) -> Sender:
         """Enter context manager.
 
         Returns:
@@ -169,7 +173,12 @@ class Sender:
         """
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: types.TracebackType | None,
+    ) -> None:
         """Exit context manager and release resources.
 
         Args:

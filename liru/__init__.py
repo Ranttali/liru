@@ -23,7 +23,7 @@ if sys.platform != "win32":
     )
 
 from liru.__version__ import __version__
-from liru.sender import Sender
 from liru.receiver import Receiver
+from liru.sender import Sender
 
 __all__ = ["Sender", "Receiver", "__version__"]

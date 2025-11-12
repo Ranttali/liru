@@ -1,6 +1,8 @@
 """Spout receiver implementation."""
 
-from typing import Optional, Tuple, List
+from __future__ import annotations
+
+import types
 
 try:
     from liru import _liru_core  # type: ignore[attr-defined]
@@ -33,7 +35,7 @@ class Receiver:
         ...     width, height = receiver.receive_texture(texture.glo)
     """
 
-    def __init__(self, sender_name: Optional[str] = None) -> None:
+    def __init__(self, sender_name: str | None = None) -> None:
         """Initialize Spout receiver.
 
         Args:
@@ -47,7 +49,7 @@ class Receiver:
         except RuntimeError as e:
             raise RuntimeError(f"Failed to create receiver: {e}") from e
 
-    def receive_texture(self, texture_id: int) -> Tuple[int, int]:
+    def receive_texture(self, texture_id: int) -> tuple[int, int]:
         """Receive texture from Spout sender.
 
         Updates the specified OpenGL texture with content from the sender.
@@ -72,7 +74,8 @@ class Receiver:
             raise ValueError(f"Invalid texture ID: {texture_id}")
 
         try:
-            return self._impl.receive_texture(texture_id)
+            result: tuple[int, int] = self._impl.receive_texture(texture_id)
+            return result
         except Exception as e:
             raise RuntimeError(f"Texture receive error: {e}") from e
 
@@ -86,7 +89,8 @@ class Receiver:
             >>> if receiver.is_updated():
             ...     receiver.receive_texture(texture.glo)
         """
-        return self._impl.is_updated()
+        updated: bool = self._impl.is_updated()
+        return updated
 
     def select_sender(self, name: str) -> None:
         """Connect to a different sender.
@@ -109,7 +113,7 @@ class Receiver:
         except Exception as e:
             raise RuntimeError(f"Failed to select sender '{name}': {e}") from e
 
-    def get_sender_list(self) -> List[str]:
+    def get_sender_list(self) -> list[str]:
         """Get list of available Spout senders.
 
         Returns:
@@ -119,7 +123,8 @@ class Receiver:
             >>> senders = receiver.get_sender_list()
             >>> print(f"Available senders: {senders}")
         """
-        return self._impl.get_sender_list()
+        senders: list[str] = self._impl.get_sender_list()
+        return senders
 
     @property
     def active_sender(self) -> str:
@@ -128,7 +133,8 @@ class Receiver:
         Returns:
             Active sender name (empty string if not connected)
         """
-        return self._impl.get_active_sender()
+        sender: str = self._impl.get_active_sender()
+        return sender
 
     @property
     def width(self) -> int:
@@ -137,7 +143,8 @@ class Receiver:
         Returns:
             Width in pixels (0 if not connected)
         """
-        return self._impl.get_width()
+        width: int = self._impl.get_width()
+        return width
 
     @property
     def height(self) -> int:
@@ -146,7 +153,8 @@ class Receiver:
         Returns:
             Height in pixels (0 if not connected)
         """
-        return self._impl.get_height()
+        height: int = self._impl.get_height()
+        return height
 
     @property
     def last_receive_time_ms(self) -> float:
@@ -159,9 +167,10 @@ class Receiver:
             >>> receiver.receive_texture(texture.glo)
             >>> print(f"Receive latency: {receiver.last_receive_time_ms:.3f}ms")
         """
-        return self._impl.get_last_receive_time_ms()
+        latency: float = self._impl.get_last_receive_time_ms()
+        return latency
 
-    def __enter__(self) -> "Receiver":
+    def __enter__(self) -> Receiver:
         """Enter context manager.
 
         Returns:
@@ -174,7 +183,12 @@ class Receiver:
         """
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: types.TracebackType | None,
+    ) -> None:
         """Exit context manager.
 
         Args:
