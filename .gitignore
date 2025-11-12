@@ -1,0 +1,70 @@
+# Planning docs (internal)
+/docs/plan
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+.eggs/
+pip-wheel-metadata/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.cmake
+!CMakeLists.txt
+_skbuild/
+
+# C++ build artifacts
+*.obj
+*.o
+*.pyd
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.dll
+*.exe
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.cover
+
+# Spout SDK (large binary files)
+/external/Spout2/
+Spout2.zip
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+
+# OS
+Thumbs.db
+desktop.ini
+/external
+ROADMAP.md
