@@ -93,7 +93,10 @@ jobs:
           pip install $wheel.FullName
 
       - name: Verify installation
+        shell: pwsh
         run: |
+          # Change to a different directory to avoid importing from source
+          cd $env:TEMP
           python -c "import liru; print(f'liru version: {liru.__version__}')"
           python -c "import liru; sender = liru.Sender('Test', 1920, 1080); print('Sender created'); sender.release()"
 
