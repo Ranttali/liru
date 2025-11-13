@@ -1,6 +1,7 @@
 """Tests for liru.Sender."""
 
 import pytest
+
 import liru
 
 
@@ -62,9 +63,7 @@ def test_sender_invalid_texture_id(
     sender.release()
 
 
-def test_sender_get_fps(
-    sender_name: str, texture_width: int, texture_height: int
-) -> None:
+def test_sender_get_fps(sender_name: str, texture_width: int, texture_height: int) -> None:
     """Test FPS tracking."""
     sender = liru.Sender(sender_name, texture_width, texture_height)
     fps = sender.get_fps()
@@ -73,9 +72,7 @@ def test_sender_get_fps(
     sender.release()
 
 
-def test_sender_last_send_time(
-    sender_name: str, texture_width: int, texture_height: int
-) -> None:
+def test_sender_last_send_time(sender_name: str, texture_width: int, texture_height: int) -> None:
     """Test latency tracking."""
     sender = liru.Sender(sender_name, texture_width, texture_height)
     latency = sender.last_send_time_ms
@@ -84,9 +81,7 @@ def test_sender_last_send_time(
     sender.release()
 
 
-def test_sender_repr(
-    sender_name: str, texture_width: int, texture_height: int
-) -> None:
+def test_sender_repr(sender_name: str, texture_width: int, texture_height: int) -> None:
     """Test string representation."""
     sender = liru.Sender(sender_name, texture_width, texture_height)
     repr_str = repr(sender)

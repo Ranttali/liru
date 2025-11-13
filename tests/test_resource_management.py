@@ -1,13 +1,13 @@
 """Tests for resource management and warnings."""
 
-import pytest
 import warnings
+
+import pytest
+
 import liru
 
 
-def test_sender_explicit_release(
-    sender_name: str, texture_width: int, texture_height: int
-) -> None:
+def test_sender_explicit_release(sender_name: str, texture_width: int, texture_height: int) -> None:
     """Test explicit release works correctly."""
     sender = liru.Sender(sender_name, texture_width, texture_height)
     sender.release()
@@ -61,7 +61,9 @@ def test_sender_no_warning_with_explicit_release(
         del sender
 
         # Should not have ResourceWarning
-        resource_warnings = [warning for warning in w if issubclass(warning.category, ResourceWarning)]
+        resource_warnings = [
+            warning for warning in w if issubclass(warning.category, ResourceWarning)
+        ]
         assert len(resource_warnings) == 0
 
 
@@ -72,11 +74,13 @@ def test_sender_no_warning_with_context_manager(
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always", ResourceWarning)
 
-        with liru.Sender(sender_name, texture_width, texture_height) as sender:
+        with liru.Sender(sender_name, texture_width, texture_height):
             pass  # Just enter and exit
 
         # Should not have ResourceWarning
-        resource_warnings = [warning for warning in w if issubclass(warning.category, ResourceWarning)]
+        resource_warnings = [
+            warning for warning in w if issubclass(warning.category, ResourceWarning)
+        ]
         assert len(resource_warnings) == 0
 
 

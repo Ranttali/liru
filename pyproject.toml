@@ -78,7 +78,7 @@ wheel.exclude = [
 
 [tool.black]
 line-length = 100
-target-version = ["py313", "py314", "py315"]
+target-version = ["py313", "py314"]
 include = '\.pyi?$'
 extend-exclude = '''
 /(

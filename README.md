@@ -72,6 +72,8 @@ with liru.Receiver("MyOutput") as receiver:
     texture = ctx.texture((receiver.width, receiver.height), 4)
 
     while running:
+        # Note: is_updated() may return False for first 1-2 frames
+        # while the OpenGL connection is being established
         if receiver.is_updated():
             width, height = receiver.receive_texture(texture.glo)
             # Use texture for compositing, preview, etc.

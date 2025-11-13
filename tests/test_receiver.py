@@ -1,6 +1,7 @@
 """Tests for liru.Receiver."""
 
 import pytest
+
 import liru
 
 
@@ -12,7 +13,7 @@ def test_receiver_creation() -> None:
 
 def test_receiver_creation_with_sender(sender_name: str) -> None:
     """Test receiver can be created with sender name."""
-    receiver = liru.Receiver(sender_name)
+    liru.Receiver(sender_name)
     # Note: With stub implementation, this might not connect yet
     # assert receiver.active_sender == sender_name
 

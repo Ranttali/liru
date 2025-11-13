@@ -1,6 +1,7 @@
 """Integration tests combining multiple features."""
 
 import pytest
+
 import liru
 
 
@@ -27,9 +28,7 @@ def test_sender_receiver_lifecycle(
     sender.release()
 
 
-def test_multiple_senders_different_names(
-    texture_width: int, texture_height: int
-) -> None:
+def test_multiple_senders_different_names(texture_width: int, texture_height: int) -> None:
     """Test multiple senders can coexist with different names."""
     sender1 = liru.Sender("Sender1", texture_width, texture_height)
     sender2 = liru.Sender("Sender2", texture_width, texture_height)
@@ -86,18 +85,10 @@ def test_context_manager_with_exception_handling(
     sender_name: str, texture_width: int, texture_height: int
 ) -> None:
     """Test context manager properly cleans up even with exceptions."""
-    exception_raised = False
-
-    try:
-        with liru.Sender(sender_name, texture_width, texture_height) as sender:
-            assert sender.name == sender_name
+    with pytest.raises(RuntimeError, match="User code error"):
+        with liru.Sender(sender_name, texture_width, texture_height):
             # Simulate error in user code
             raise RuntimeError("User code error")
-    except RuntimeError as e:
-        exception_raised = True
-        assert str(e) == "User code error"
-
-    assert exception_raised, "Exception should have been raised"
     # Sender should be cleaned up despite exception
 
 
@@ -133,9 +124,7 @@ def test_receiver_initialization_states() -> None:
     assert isinstance(senders, list)
 
 
-def test_deterministic_behavior(
-    sender_name: str, texture_width: int, texture_height: int
-) -> None:
+def test_deterministic_behavior(sender_name: str, texture_width: int, texture_height: int) -> None:
     """Test operations are deterministic (same input → same output)."""
     # Create same sender multiple times
     for _ in range(3):

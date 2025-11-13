@@ -1,12 +1,9 @@
 """Tests for context manager support."""
 
-import pytest
 import liru
 
 
-def test_sender_context_manager(
-    sender_name: str, texture_width: int, texture_height: int
-) -> None:
+def test_sender_context_manager(sender_name: str, texture_width: int, texture_height: int) -> None:
     """Test Sender works as context manager."""
     with liru.Sender(sender_name, texture_width, texture_height) as sender:
         assert sender.name == sender_name
@@ -20,7 +17,7 @@ def test_sender_context_manager_exception(
 ) -> None:
     """Test Sender context manager handles exceptions properly."""
     try:
-        with liru.Sender(sender_name, texture_width, texture_height) as sender:
+        with liru.Sender(sender_name, texture_width, texture_height):
             # Simulate an error
             raise ValueError("Test error")
     except ValueError:

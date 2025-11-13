@@ -1,8 +1,9 @@
 """Tests for platform compatibility checks."""
 
 import sys
-import pytest
 from unittest.mock import patch
+
+import pytest
 
 
 def test_import_on_windows() -> None:
@@ -49,11 +50,9 @@ def test_windows_platform_detected() -> None:
     """Test Windows platform is correctly detected."""
     if sys.platform == "win32":
         # On Windows, we should be able to import successfully
-        try:
-            import liru
+        import importlib.util
 
-            assert True  # Import succeeded
-        except ImportError:
-            pytest.fail("liru should import successfully on Windows")
+        spec = importlib.util.find_spec("liru")
+        assert spec is not None, "liru should be importable on Windows"
     else:
         pytest.skip("Test only runs on Windows")

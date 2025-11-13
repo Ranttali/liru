@@ -4,7 +4,15 @@
       "Bash(\".venv\\Scripts\\pytest.exe\" tests/ -v)",
       "Bash(\".venv\\Scripts\\pip.exe\" install -e . --force-reinstall --no-deps)",
       "Bash(\".venv\\Scripts\\python.exe\" -m build --wheel)",
-      "Bash(\".venv\\Scripts\\python.exe\" test_senders.py)"
+      "Bash(\".venv\\Scripts\\python.exe\" test_senders.py)",
+      "Bash(.venvScriptsblack.exe liru/ tests/)",
+      "Bash(.venvScriptsruff.exe check liru/ tests/)",
+      "Bash(.venvScriptsmypy.exe liru/)",
+      "Bash(\".venv/Scripts/black.exe\" liru/ tests/)",
+      "Bash(\".venv/Scripts/ruff.exe\" check liru/ tests/)",
+      "Bash(\".venv/Scripts/mypy.exe\" liru/)",
+      "Bash(\".venv/Scripts/ruff.exe\" check --fix liru/ tests/)",
+      "Bash(\".venv/Scripts/pytest.exe\" tests/ -v)"
     ],
     "deny": [],
     "ask": []
