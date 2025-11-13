@@ -5,15 +5,15 @@ build-backend = "scikit_build_core.build"
 [project]
 name = "liru"
 dynamic = ["version"]
-description = "High-performance Python wrapper for Spout 2.007 GPU texture sharing"
+description = "High-performance Python wrapper for Spout 2 GPU texture sharing"
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.13"
 license = {text = "BSD-2-Clause"}
 authors = [
-    {name = "Lauri Mäki", email = "laurimaeki@gmail.com"}
+    {name = "Ranttali", email = "laurimaeki@gmail.com"}
 ]
 maintainers = [
-    {name = "Lauri Mäki", email = "laurimaeki@gmail.com"}
+    {name = "Ranttali", email = "laurimaeki@gmail.com"}
 ]
 keywords = ["spout", "gpu", "texture-sharing", "realtime", "video", "opengl", "moderngl"]
 classifiers = [
