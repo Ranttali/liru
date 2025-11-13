@@ -25,7 +25,7 @@ python -c "import liru; print(liru.__version__)"
 ### Step 1: Clone Repository
 
 ```bash
-git clone https://github.com/veitsi/liru.git
+git clone https://github.com/Ranttali/liru.git
 cd liru
 ```
 
@@ -175,6 +175,6 @@ pip show liru
 
 ## Getting Help
 
-- [Issues](https://github.com/veitsi/liru/issues)
-- [Discussions](https://github.com/veitsi/liru/discussions)
+- [Issues](https://github.com/Ranttali/liru/issues)
+- [Discussions](https://github.com/Ranttali/liru/discussions)
 - [Documentation](docs/)

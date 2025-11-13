@@ -23,7 +23,7 @@ Thank you for your interest in contributing to liru! This document provides guid
 
 ```bash
 # Clone repository
-git clone https://github.com/veitsi/liru.git
+git clone https://github.com/Ranttali/liru.git
 cd liru
 
 # Create virtual environment
@@ -202,8 +202,8 @@ We welcome feature requests! Please:
 
 ## Questions?
 
-- Open a [Discussion](https://github.com/veitsi/liru/discussions)
-- Check existing [Issues](https://github.com/veitsi/liru/issues)
+- Open a [Discussion](https://github.com/Ranttali/liru/discussions)
+- Check existing [Issues](https://github.com/Ranttali/liru/issues)
 - Review the [Documentation](docs/)
 
 ## License

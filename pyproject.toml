@@ -48,11 +48,11 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/veitsi/liru"
-Documentation = "https://github.com/veitsi/liru/tree/main/docs"
-Repository = "https://github.com/veitsi/liru"
-Issues = "https://github.com/veitsi/liru/issues"
-Changelog = "https://github.com/veitsi/liru/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/Ranttali/liru"
+Documentation = "https://github.com/Ranttali/liru/tree/main/docs"
+Repository = "https://github.com/Ranttali/liru"
+Issues = "https://github.com/Ranttali/liru/issues"
+Changelog = "https://github.com/Ranttali/liru/blob/main/CHANGELOG.md"
 
 [tool.scikit-build]
 cmake.version = ">=3.25"

@@ -202,8 +202,7 @@ All third-party licenses are included in the distribution and must be retained w
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/veitsi/liru/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/veitsi/liru/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Ranttali/liru/issues)
 - **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
 ## Project Status
@@ -212,5 +211,5 @@ liru is under active development (Alpha). The API is stable but may change befor
 
 ---
 
-**Maintained by**: Veitsi Development Team
+**Maintained by**: Ranttali
 **License**: BSD-2-Clause
