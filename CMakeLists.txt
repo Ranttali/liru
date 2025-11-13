@@ -74,11 +74,11 @@ if(MSVC)
     )
 endif()
 
-# Install target
-install(TARGETS _liru_core LIBRARY DESTINATION liru)
+# Install target (wheel.install-dir in pyproject.toml already sets base to 'liru')
+install(TARGETS _liru_core LIBRARY DESTINATION .)
 
 # Install Spout DLL alongside the extension (required at runtime)
-install(FILES "${SPOUT_BIN_DIR}/Spout.dll" DESTINATION liru)
+install(FILES "${SPOUT_BIN_DIR}/Spout.dll" DESTINATION .)
 
 # Print configuration summary
 message(STATUS "==========================================")

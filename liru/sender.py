@@ -5,7 +5,7 @@ from __future__ import annotations
 import types
 
 try:
-    from liru import _liru_core  # type: ignore[attr-defined]
+    from . import _liru_core  # type: ignore[import-not-found,attr-defined]
 except ImportError as e:
     raise ImportError(
         "Failed to import _liru_core extension. "
@@ -198,11 +198,16 @@ class Sender:
 
     def __del__(self) -> None:
         """Cleanup on deletion."""
-        if hasattr(self, "_released") and not self._released:
+        # Only issue warning and release if initialization completed successfully
+        if not hasattr(self, "_released"):
+            return  # __init__ failed before setting _released
+
+        if not self._released:
             import warnings
 
+            name = self._name if hasattr(self, "_name") else "unknown"
             warnings.warn(
-                f"Sender '{self._name}' was not explicitly released. "
+                f"Sender '{name}' was not explicitly released. "
                 "Call sender.release() or use 'with' statement for proper cleanup.",
                 ResourceWarning,
                 stacklevel=2,

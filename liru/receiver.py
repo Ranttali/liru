@@ -5,7 +5,7 @@ from __future__ import annotations
 import types
 
 try:
-    from liru import _liru_core  # type: ignore[attr-defined]
+    from . import _liru_core  # type: ignore[import-not-found,attr-defined]
 except ImportError as e:
     raise ImportError(
         "Failed to import _liru_core extension. "

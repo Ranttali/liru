@@ -30,13 +30,17 @@ def test_sender_resource_warning_on_del(
     sender_name: str, texture_width: int, texture_height: int
 ) -> None:
     """Test ResourceWarning is raised if sender not explicitly released."""
+    import gc
+
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always", ResourceWarning)
 
         # Create sender without releasing
         sender = liru.Sender(sender_name, texture_width, texture_height)
         sender_ref = sender
-        del sender  # Trigger __del__
+        del sender  # Remove first reference
+        del sender_ref  # Remove last reference
+        gc.collect()  # Force garbage collection to trigger __del__
 
         # Check if ResourceWarning was raised
         assert len(w) >= 1

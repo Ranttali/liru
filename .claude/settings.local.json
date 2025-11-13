@@ -1,11 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(.venvScriptsmypy.exe liru)",
-      "Bash(.venvScriptsflake8.exe liru --max-line-length=240)",
-      "Bash(\".venv\\Scripts\\mypy.exe\" liru)",
-      "Bash(\".venv\\Scripts\\flake8.exe\" liru --max-line-length=240)",
-      "Bash(\".venv\\Scripts\\ruff.exe\" check liru)"
+      "Bash(\".venv\\Scripts\\pytest.exe\" tests/ -v)"
     ],
     "deny": [],
     "ask": []
