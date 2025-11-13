@@ -1,26 +1,38 @@
 # liru
 
-## Python wrapper for Spout 2 GPU texture sharing
+**High-performance Python wrapper for Spout 2.007 GPU texture sharing**
 
 [![License: BSD-2-Clause](https://img.shields.io/badge/License-BSD%202--Clause-blue.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
 [![Platform: Windows](https://img.shields.io/badge/platform-Windows-lightgrey.svg)](https://www.microsoft.com/windows)
 
-**liru** provides zero-copy GPU texture sharing between Python processes using Spout 2 DirectX shared texture mechanism. Designed for real-time video mixing, compositing, and live graphics applications.
+**liru** provides zero-copy GPU texture sharing between Python applications using the Spout 2 DirectX 11 shared texture mechanism. Designed for real-time video mixing, compositing, and live graphics applications on Windows.
 
-## Features
+## Key Features
 
-Python wrapper for Spout.
+- **Zero-Copy GPU Sharing**: Direct GPU-to-GPU texture transfer via DirectX 11
+- **Real-Time Performance**: Minimal latency for 60 FPS+ video pipelines
+- **ModernGL Integration**: Seamless interoperability with ModernGL contexts
+- **Simple API**: Pythonic interface wrapping Spout 2.007 SDK
+- **Type Hints**: Full type annotations for IDE autocomplete and type checking
+- **Context Managers**: Automatic resource cleanup with `with` statements
 
-## Quick Start
-
-### Installation
+## Installation
 
 ```bash
 pip install liru
 ```
 
-### Basic Usage
+**Requirements:**
+
+- Windows 10/11 (Spout is Windows-only)
+- Python 3.13 or later
+- DirectX 11 compatible GPU
+- Visual C++ Redistributable 2022 (usually already installed)
+
+## Quick Start
+
+### Sending Textures
 
 ```python
 import moderngl
@@ -30,22 +42,17 @@ import liru
 ctx = moderngl.create_context()
 texture = ctx.texture((1920, 1080), 4)  # RGBA
 
-# Initialize Spout sender
-sender = liru.Sender("MySource", 1920, 1080)
+# Send textures via Spout (automatic cleanup with context manager)
+with liru.Sender("MyOutput", 1920, 1080) as sender:
+    while running:
+        # Render to texture
+        # ... your rendering code ...
 
-# Render loop
-while running:
-    # Render to texture
-    # ... your rendering code ...
+        # Send via Spout (GPU-only, zero CPU copy)
+        sender.send_texture(texture.glo)
 
-    # Send via Spout (GPU-only, no CPU copy)
-    sender.send_texture(texture.glo)
-
-    # Optional: check performance
-    print(f"FPS: {sender.get_fps():.1f}, Latency: {sender.last_send_time_ms:.3f}ms")
-
-# Cleanup
-sender.release()
+        # Optional: monitor performance
+        print(f"FPS: {sender.get_fps():.1f}, Latency: {sender.last_send_time_ms:.3f}ms")
 ```
 
 ### Receiving Textures
@@ -55,22 +62,31 @@ import moderngl
 import liru
 
 ctx = moderngl.create_context()
-receiver = liru.Receiver("MySource")
 
-# Create texture (receiver will update its size)
-texture = ctx.texture((1, 1), 4)
+# Connect to a Spout sender (automatic cleanup with context manager)
+with liru.Receiver("MyOutput") as receiver:
+    # Get dimensions immediately (no frame reception required)
+    print(f"Sender resolution: {receiver.width}x{receiver.height}")
 
-while running:
-    if receiver.is_updated():
-        width, height = receiver.receive_texture(texture.glo)
-        # Use texture in compositor
-        # ... your compositing code ...
+    # Create texture sized to match sender
+    texture = ctx.texture((receiver.width, receiver.height), 4)
+
+    while running:
+        if receiver.is_updated():
+            width, height = receiver.receive_texture(texture.glo)
+            # Use texture for compositing, preview, etc.
+            # ... your processing code ...
 ```
 
-- **OS**: Windows 10/11 (Spout is Windows-only)
-- **Python**: 3.13
-- **GPU**: DirectX 11 compatible GPU
-- **Runtime**: Visual C++ Redistributable 2022
+### Listing Available Senders
+
+```python
+import liru
+
+with liru.Receiver() as receiver:
+    senders = receiver.get_sender_list()
+    for sender_name in senders:
+        print(f"Available sender: {sender_name}")
 
 ## Documentation
 
@@ -104,31 +120,9 @@ receiver.select_sender(name: str) -> None
 receiver.get_sender_list() -> list[str]
 ```
 
-## Building from Source
+## Development
 
-```bash
-# Clone repository
-git clone https://github.com/veitsi/liru.git
-cd liru
-
-# Create virtual environment
-python -m venv venv
-venv\Scripts\activate
-
-# Install build dependencies
-pip install build scikit-build-core pybind11
-
-# Download Spout SDK 2.007
-# Place in external/Spout2/SPOUTSDK/
-
-# Build wheel
-python -m build
-
-# Install locally
-pip install dist/liru-0.1.0-cp313-cp313-win_amd64.whl
-```
-
-See [Build Guide](docs/plan/05_build_and_distribution.md) for detailed instructions.
+For contributors and developers who want to build from source, see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed setup instructions.
 
 ## Project Structure
 
@@ -152,7 +146,12 @@ liru/
 
 ## Contributing
 
-Contributions are welcome! Please read our contributing guidelines before submitting pull requests.
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+
+- Setting up your development environment
+- Running tests
+- Code style and quality standards
+- Submitting pull requests
 
 ## License
 
@@ -181,18 +180,15 @@ All third-party licenses are included in the distribution and must be retained w
 
 ## Support
 
-- **Issues**: <https://github.com/veitsi/liru/issues>
+- **Issues**: [GitHub Issues](https://github.com/veitsi/liru/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/veitsi/liru/discussions)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
 ## Project Status
 
-liru is under active development. See [ROADMAP.md](ROADMAP.md) for detailed development status and plans.
+liru is under active development (Alpha). The API is stable but may change before the 1.0 release.
 
 ---
 
-**Maintained by**: Ranttali (Lauri Mäki)
-
-**Created**: 2025-11-12
-
-## AI Assistance Disclosure
-
-This project was developed with the assistance of AI tools. AI was used for code generation, documentation, and project structure setup. All code has been reviewed and tested by human developers.
+**Maintained by**: Veitsi Development Team
+**License**: BSD-2-Clause

@@ -27,16 +27,18 @@ git clone https://github.com/veitsi/liru.git
 cd liru
 
 # Create virtual environment
-python -m venv venv
-venv\Scripts\activate
+python -m venv .venv
+.venv\Scripts\activate
 
-# Install development dependencies
-pip install -r requirements.txt
-
-# Download Spout SDK
+# Download Spout SDK (required for building C++ extension)
 scripts\download_spout_sdk.bat
 
-# Build in development mode
+# Install development dependencies
+# Option 1 (recommended): Via pyproject.toml
+pip install -e ".[dev]"
+
+# Option 2: Via requirements-dev.txt
+pip install -r requirements-dev.txt
 pip install -e .
 ```
 

@@ -1,5 +1,10 @@
-# Development dependencies
-# Install with: pip install -r requirements.txt
+# Development dependencies for liru
+#
+# Option 1 (recommended): Install via pyproject.toml
+#   pip install -e ".[dev]"
+#
+# Option 2: Install from this file
+#   pip install -r requirements-dev.txt
 
 # Build system
 build>=1.2.0
