@@ -44,6 +44,7 @@ texture = ctx.texture((1920, 1080), 4)  # RGBA
 
 # Send textures via Spout (automatic cleanup with context manager)
 with liru.Sender("MyOutput", 1920, 1080) as sender:
+    running = True
     while running:
         # Render to texture
         # ... your rendering code ...
@@ -71,6 +72,7 @@ with liru.Receiver("MyOutput") as receiver:
     # Create texture sized to match sender
     texture = ctx.texture((receiver.width, receiver.height), 4)
 
+    running = True
     while running:
         # Note: is_updated() may return False for first 1-2 frames
         # while the OpenGL connection is being established
@@ -89,6 +91,7 @@ with liru.Receiver() as receiver:
     senders = receiver.get_sender_list()
     for sender_name in senders:
         print(f"Available sender: {sender_name}")
+```
 
 ## Documentation
 
@@ -105,21 +108,38 @@ You want to use Python and Spout. It seems alternatives were somewhat stale or l
 ### Sender
 
 ```python
-sender = liru.Sender("MySource", 1920, 1080)
-sender.send_texture(texture_id: int) -> None
-sender.get_fps() -> float
-sender.last_send_time_ms -> float
-sender.release() -> None
+# Constructor
+liru.Sender(name: str, width: int, height: int)
+
+# Methods
+send_texture(texture_id: int) -> None
+get_fps() -> float
+release() -> None
+
+# Properties
+name: str                  # Sender name
+width: int                 # Texture width
+height: int                # Texture height
+last_send_time_ms: float   # Last send operation time in milliseconds
 ```
 
 ### Receiver
 
 ```python
-receiver = liru.Receiver("SenderName")
-receiver.receive_texture(texture_id: int) -> tuple[int, int]
-receiver.is_updated() -> bool
-receiver.select_sender(name: str) -> None
-receiver.get_sender_list() -> list[str]
+# Constructor
+liru.Receiver(sender_name: str = "")
+
+# Methods
+receive_texture(texture_id: int) -> tuple[int, int]  # Returns (width, height)
+is_updated() -> bool
+select_sender(name: str) -> None
+get_sender_list() -> list[str]
+
+# Properties
+active_sender: str         # Currently connected sender name
+width: int                 # Sender texture width
+height: int                # Sender texture height
+last_receive_time_ms: float  # Last receive operation time in milliseconds
 ```
 
 ## Development
