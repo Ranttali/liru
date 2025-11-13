@@ -15,8 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.13']
-        # TODO: Add 3.14, 3.15 when available
+        python-version: ['3.13', '3.14']
 
     steps:
       - name: Checkout repository
@@ -68,7 +67,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.13']
+        python-version: ['3.13', '3.14']
 
     steps:
       - name: Checkout repository
