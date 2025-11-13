@@ -5,6 +5,7 @@
 #include "receiver_wrapper.h"
 #include "Spout.h"
 #include <stdexcept>
+#include <cstring>
 
 ReceiverWrapper::ReceiverWrapper(const std::string& sender_name)
     : m_active_sender(sender_name), m_width(0), m_height(0),
@@ -12,10 +13,15 @@ ReceiverWrapper::ReceiverWrapper(const std::string& sender_name)
 
     m_receiver = std::make_unique<Spout>();
 
+    // Don't call CreateReceiver() here - it requires OpenGL context
+    // Just store the sender name for lazy initialization
     if (!sender_name.empty()) {
         m_receiver->SetReceiverName(sender_name.c_str());
         m_active_sender = sender_name;
     }
+
+    // Try to query sender dimensions from registry (doesn't require OpenGL)
+    query_sender_info();
 }
 
 ReceiverWrapper::~ReceiverWrapper() {
@@ -70,8 +76,17 @@ void ReceiverWrapper::select_sender(const std::string& name) {
         throw std::invalid_argument("Sender name cannot be empty");
     }
 
+    // Release current receiver
+    m_receiver->ReleaseReceiver();
+    m_initialized = false;
+
+    // Set new sender name (connection will happen on next receive_texture)
     m_receiver->SetReceiverName(name.c_str());
     m_active_sender = name;
+
+    // Reset cached dimensions
+    m_width = 0;
+    m_height = 0;
 }
 
 std::vector<std::string> ReceiverWrapper::get_sender_list() {
@@ -83,13 +98,43 @@ std::string ReceiverWrapper::get_active_sender() const {
 }
 
 int ReceiverWrapper::get_width() const {
+    // Return cached width populated by CreateReceiver() or receive_texture()
     return m_width;
 }
 
 int ReceiverWrapper::get_height() const {
+    // Return cached height populated by CreateReceiver() or receive_texture()
     return m_height;
 }
 
 double ReceiverWrapper::get_last_receive_time_ms() const {
     return m_last_receive_time_ms;
+}
+
+bool ReceiverWrapper::is_initialized() const {
+    return m_initialized;
+}
+
+bool ReceiverWrapper::query_sender_info() {
+    if (m_active_sender.empty()) {
+        // No sender specified, get the active sender
+        char name_buffer[256] = {0};
+        if (!m_receiver->GetActiveSender(name_buffer)) {
+            return false;
+        }
+        m_active_sender = std::string(name_buffer);
+    }
+
+    // Query sender info from registry (doesn't require OpenGL context)
+    unsigned int width = 0, height = 0;
+    HANDLE shareHandle = nullptr;
+    DWORD format = 0;
+
+    if (m_receiver->GetSenderInfo(m_active_sender.c_str(), width, height, shareHandle, format)) {
+        m_width = static_cast<int>(width);
+        m_height = static_cast<int>(height);
+        return true;
+    }
+
+    return false;
 }

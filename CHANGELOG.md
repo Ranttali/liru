@@ -5,7 +5,31 @@ All notable changes to liru will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.3] - 2025-11-13
+
+### Fixed
+
+- Critical fix: Receiver dimensions now correctly populated without OpenGL context
+- Uses GetSenderInfo() to query Spout shared memory registry
+- Receiver.width and Receiver.height return correct values
+
+### Changed
+
+- Lazy initialization: OpenGL connection established on first receive_texture() call
+- Added query_sender_info() method to explicitly query sender dimensions
+- Added is_initialized() diagnostic method
+
+## [0.2.2] - 2025-11-13
+
+### Fixed
+
+- Receiver.width and Receiver.height now return correct values without requiring frame reception
+- Receiver uses CreateReceiver() API to establish proper connection with OpenGL context
+- Constructor and select_sender() methods now query sender dimensions immediately
+
 ## [0.2.0] - 2025-11-13
+
+### Added
 
 - Python 3.14 support
 

@@ -96,6 +96,21 @@ public:
      */
     double get_last_receive_time_ms() const;
 
+    /**
+     * Check if receiver was successfully initialized.
+     *
+     * @return true if CreateReceiver() succeeded
+     */
+    bool is_initialized() const;
+
+    /**
+     * Query sender information without receiving frames.
+     * This queries the Spout shared memory registry.
+     *
+     * @return true if sender info was retrieved successfully
+     */
+    bool query_sender_info();
+
 private:
     std::unique_ptr<Spout> m_receiver;
     std::string m_active_sender;

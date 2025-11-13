@@ -75,8 +75,14 @@ PYBIND11_MODULE(_liru_core, m) {
              "Get texture height")
         .def("get_last_receive_time_ms",
              &ReceiverWrapper::get_last_receive_time_ms,
-             "Get last receive time in milliseconds");
+             "Get last receive time in milliseconds")
+        .def("is_initialized",
+             &ReceiverWrapper::is_initialized,
+             "Check if receiver was successfully initialized")
+        .def("query_sender_info",
+             &ReceiverWrapper::query_sender_info,
+             "Query sender dimensions without receiving frames");
 
-    // Module version
-    m.attr("__version__") = "0.1.0";
+    // Module version - will be overridden by Python package __init__.py
+    m.attr("__version__") = "0.0.0";
 }
