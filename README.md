@@ -28,7 +28,7 @@ pip install liru
 - Windows 10/11 (Spout is Windows-only)
 - Python 3.13 or later
 - DirectX 11 compatible GPU
-- Visual C++ Redistributable 2022 (usually already installed)
+- Visual C++ Redistributable 2022
 
 ## Quick Start
 
